@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victor's 3D Universe | Three.js Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Canvas para Three.js -->
+    <canvas id="three-canvas"></canvas>
+    
+    <!-- Overlay de contenido -->
+    <div class="content">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-cube"></i>
+                <span>VICTOR'S 3D UNIVERSE</span>
+            </div>
+            <nav class="nav">
+                <a href="#home" class="nav-link active"><i class="fas fa-home"></i> Inicio</a>
+                <a href="#games" class="nav-link"><i class="fas fa-gamepad"></i> Juegos</a>
+                <a href="#scenes" class="nav-link"><i class="fas fa-mountain"></i> Escenas</a>
+                <a href="#experiments" class="nav-link"><i class="fas fa-flask"></i> Experimentos</a>
+                <a href="#about" class="nav-link"><i class="fas fa-user"></i> Sobre Mí</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">EXPLORA EL 3D</span>
+                    <span class="hero-subtitle">con Three.js</span>
+                </h1>
+                <p class="hero-description">
+                    Un portafolio interactivo de juegos, escenas y experiencias 3D creadas con JavaScript y WebGL.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#games" class="btn btn-primary">
+                        <i class="fas fa-play"></i> Ver Juegos
+                    </a>
+                    <a href="#scenes" class="btn btn-secondary">
+                        <i class="fas fa-eye"></i> Explorar Escenas
+                    </a>
+                </div>
+                <div class="scroll-indicator">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Games Section -->
+        <section id="games" class="section">
+            <h2 class="section-title">
+                <i class="fas fa-gamepad"></i> Mis Juegos 3D
+            </h2>
+            <div class="projects-grid" id="games-grid">
+                <!-- Los juegos se cargarán dinámicamente desde JS -->
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Cargando juegos...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scenes Section -->
+        <section id="scenes" class="section">
+            <h2 class="section-title">
+                <i class="fas fa-mountain"></i> Escenas Interactivas
+            </h2>
+            <div class="projects-grid" id="scenes-grid">
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Cargando escenas...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experiments Section -->
+        <section id="experiments" class="section">
+            <h2 class="section-title">
+                <i class="fas fa-flask"></i> Experimentos
+            </h2>
+            <div class="projects-grid" id="experiments-grid">
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Cargando experimentos...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section about-section">
+            <h2 class="section-title">
+                <i class="fas fa-user"></i> Sobre Este Proyecto
+            </h2>
+            <div class="about-content">
+                <div class="about-card">
+                    <i class="fas fa-code about-icon"></i>
+                    <h3>Tecnologías</h3>
+                    <p>Three.js • WebGL • JavaScript • HTML5 • CSS3</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-rocket about-icon"></i>
+                    <h3>Objetivo</h3>
+                    <p>Crear experiencias 3D interactivas accesibles desde cualquier navegador</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-share-alt about-icon"></i>
+                    <h3>Compartir</h3>
+                    <p>Todo el código es abierto y disponible en GitHub</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-cube"></i> VICTOR'S 3D UNIVERSE
+                </div>
+                <p>Desarrollado con Three.js y GitHub Pages</p>
+                <div class="footer-links">
+                    <a href="https://github.com/victor-git-cyber" target="_blank">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Import Maps para Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.162.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.162.0/examples/jsm/"
+            }
+        }
+    </script>
+    
+    <!-- Scripts -->
+    <script type="module" src="main.js"></script>
+</body>
+</html>

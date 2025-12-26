@@ -1,0 +1,86 @@
+{
+  "games": [
+    {
+      "id": 1,
+      "title": "Space Shooter 3D",
+      "description": "Juego de naves espaciales con física realista y combate en el espacio",
+      "longDescription": "Un shooter espacial en primera persona con enemigos AI, power-ups y múltiples niveles. Desarrollado con Three.js y Cannon.js para físicas realistas.",
+      "tags": ["acción", "espacio", "shooter", "3D", "física"],
+      "folder": "games/space-shooter",
+      "thumbnail": "assets/images/space-shooter-thumb.jpg",
+      "technologies": ["Three.js", "Cannon.js", "WebGL", "JavaScript"],
+      "status": "en desarrollo",
+      "features": ["Enemigos AI", "Sistema de puntuación", "Múltiples armas", "Efectos de partículas"],
+      "github": "https://github.com/victor-git-cyber/space-shooter-3d"
+    },
+    {
+      "id": 2,
+      "title": "Carrera de Cubos",
+      "description": "Juego de carreras de obstáculos con controles simples pero desafiantes",
+      "longDescription": "Controla un cubo a través de una pista llena de obstáculos. Recolecta power-ups, evita trampas y compite contra el reloj.",
+      "tags": ["carreras", "arcade", "3D", "obstáculos", "casual"],
+      "folder": "games/cube-race",
+      "thumbnail": "assets/images/cube-race-thumb.jpg",
+      "technologies": ["Three.js", "JavaScript", "HTML5"],
+      "status": "completado",
+      "features": ["3 niveles", "Sistema de records", "Controles táctiles", "Efectos visuales"],
+      "github": "https://github.com/victor-git-cyber/cube-race"
+    }
+  ],
+  "scenes": [
+    {
+      "id": 3,
+      "title": "Galaxia Interactiva",
+      "description": "Sistema solar completo con planetas orbitando y información educativa",
+      "longDescription": "Explora nuestro sistema solar en 3D. Haz clic en cada planeta para ver información detallada. Ajusta la velocidad orbital y observa las constelaciones.",
+      "tags": ["espacio", "educativo", "simulación", "interactivo", "3D"],
+      "folder": "scenes/galaxy",
+      "thumbnail": "assets/images/galaxy-thumb.jpg",
+      "technologies": ["Three.js", "WebGL", "JSON"],
+      "status": "completado",
+      "features": ["Órbitas realistas", "Información planetaria", "Modo noche/día", "Zoom interactivo"],
+      "github": "https://github.com/victor-git-cyber/interactive-galaxy"
+    },
+    {
+      "id": 4,
+      "title": "Sala de Exposiciones 3D",
+      "description": "Galería virtual para mostrar modelos 3D con controles de cámara",
+      "longDescription": "Una sala de exposiciones virtual donde puedes cargar y visualizar modelos 3D en formatos GLTF y FBX. Incluye controles de cámara, iluminación ajustable y mediciones.",
+      "tags": ["exhibición", "modelos", "VR", "galería", "3D"],
+      "folder": "scenes/showroom",
+      "thumbnail": "assets/images/showroom-thumb.jpg",
+      "technologies": ["Three.js", "GLTFLoader", "WebXR", "Blender"],
+      "status": "en desarrollo",
+      "features": ["Soporte VR", "Importación GLTF", "Iluminación HDRI", "Mediciones 3D"],
+      "github": "https://github.com/victor-git-cyber/3d-showroom"
+    }
+  ],
+  "experiments": [
+    {
+      "id": 5,
+      "title": "Sistema de Partículas Avanzado",
+      "description": "Simulación de efectos de partículas: fuego, agua, humo y explosiones",
+      "longDescription": "Un sandbox para experimentar con sistemas de partículas. Ajusta parámetros en tiempo real y observa cómo cambian los efectos. Incluye shaders personalizados.",
+      "tags": ["partículas", "simulación", "shaders", "efectos", "WebGL"],
+      "folder": "experiments/particles",
+      "thumbnail": "assets/images/particles-thumb.jpg",
+      "technologies": ["Three.js", "GLSL", "ShaderMaterial", "Post-processing"],
+      "status": "completado",
+      "features": ["Editor de parámetros", "10+ efectos", "Exportación de config", "Shaders personalizados"],
+      "github": "https://github.com/victor-git-cyber/particle-system"
+    },
+    {
+      "id": 6,
+      "title": "Simulación Física con Cannon.js",
+      "description": "Demostración interactiva de físicas realistas: gravedad, colisiones, joints",
+      "longDescription": "Experimento educativo que muestra los principios de la física en 3D. Crea escenas con diferentes formas, materiales y fuerzas. Ideal para aprender física computacional.",
+      "tags": ["física", "simulación", "cannon.js", "educativo", "interactivo"],
+      "folder": "experiments/physics",
+      "thumbnail": "assets/images/physics-thumb.jpg",
+      "technologies": ["Three.js", "Cannon.js", "JavaScript", "WebGL"],
+      "status": "completado",
+      "features": ["Editor de escenas", "Diferentes materiales", "Gravedad ajustable", "Exportación de simulaciones"],
+      "github": "https://github.com/victor-git-cyber/physics-simulation"
+    }
+  ]
+}
