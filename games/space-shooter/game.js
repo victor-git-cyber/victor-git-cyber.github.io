@@ -563,10 +563,13 @@ function goToMenu() {
     pauseScreen.style.display = 'none';
     startScreen.style.display = 'flex';
 }
-
 // Go back to portfolio
 function goToPortfolio() {
-    window.location.href = '../index.html';
+    console.log('🔙 Volviendo al portafolio principal...');
+    
+    // Redirigir a la página principal
+    // '/' siempre apunta a la raíz del dominio
+    window.location.href = '/';
 }
 
 // Toggle pause
