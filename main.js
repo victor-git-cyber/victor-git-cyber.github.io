@@ -292,10 +292,16 @@ function createProjectCard(project) {
 
 // Cargar un proyecto específico
 function loadProject(project) {
-    alert(`🚀 Proyecto "${project.title}"\n\n📁 Se cargará desde: ${project.folder}\n\n(En desarrollo - próximamente disponible)`);
+    console.log(`🚀 Cargando proyecto: ${project.title}`);
+    console.log(`📁 Ruta: ${project.folder}/index.html`);
     
-    // Para el futuro: cargar el proyecto dinámicamente
-    // window.location.href = `${project.folder}/index.html`;
+    // Redirigir al proyecto
+    window.location.href = `${project.folder}/index.html`;
+    
+    // Opcional: mostrar mensaje de carga
+    // const gamesGrid = document.getElementById('games-grid');
+    // gamesGrid.innerHTML = `<div class="loading"><i class="fas fa-spinner"></i><p>Cargando ${project.title}...</p></div>`;
+
 }
 
 // Smooth scroll para navegación
