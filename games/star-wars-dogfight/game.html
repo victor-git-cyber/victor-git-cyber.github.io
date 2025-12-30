@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misión en Curso | Star Wars Dogfight</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Canvas para Three.js -->
+    <canvas id="game-canvas"></canvas>
+    
+    <!-- Punto de mira (Crosshair) -->
+    <div class="crosshair" id="crosshair">
+        <div class="crosshair-inner"></div>
+        <div class="crosshair-dot"></div>
+    </div>
+    
+    <!-- HUD (Heads-Up Display) -->
+    <div class="hud">
+        <!-- Panel izquierdo -->
+        <div class="hud-left">
+            <div class="hud-panel">
+                <div class="hud-title">PILOTO</div>
+                <div class="hud-value" id="pilot-name-display">LUKE SKYWALKER</div>
+            </div>
+            
+            <div class="hud-panel">
+                <div class="hud-title">OBJETIVO</div>
+                <div class="hud-value" id="mission-objective">SOBREVIVIR 3:00</div>
+            </div>
+        </div>
+        
+        <!-- Panel central (salud y escudos) -->
+        <div class="hud-center">
+            <div class="health-container">
+                <div class="hud-title">INTEGRIDAD</div>
+                <div class="health-bar">
+                    <div class="health-fill" id="health-bar"></div>
+                </div>
+                <div class="health-value" id="health-value">100%</div>
+            </div>
+            
+            <div class="shield-container">
+                <div class="hud-title">ESCUDOS</div>
+                <div class="shield-bar">
+                    <div class="shield-fill" id="shield-bar"></div>
+                </div>
+                <div class="shield-value" id="shield-value">100%</div>
+            </div>
+        </div>
+        
+        <!-- Panel derecho -->
+        <div class="hud-right">
+            <div class="hud-panel">
+                <div class="hud-title">TIEMPO</div>
+                <div class="hud-value" id="mission-timer">03:00</div>
+            </div>
+            
+            <div class="hud-panel">
+                <div class="hud-title">DESTRUÍDOS</div>
+                <div class="hud-value" id="enemies-destroyed">0</div>
+            </div>
+            
+            <div class="hud-panel">
+                <div class="hud-title">MUNICIÓN</div>
+                <div class="hud-value" id="ammo-count">∞</div>
+            </div>
+        </div>
+        
+        <!-- Alertas -->
+        <div class="alerts" id="alerts-container">
+            <!-- Las alertas se insertarán aquí dinámicamente -->
+        </div>
+    </div>
+    
+    <!-- Controles móviles (solo visible en móvil) -->
+    <div class="mobile-controls" id="mobile-controls">
+        <div class="mobile-controls-row">
+            <button class="mobile-btn move-btn" id="move-up">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+        </div>
+        <div class="mobile-controls-row">
+            <button class="mobile-btn move-btn" id="move-left">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <button class="mobile-btn action-btn" id="fire-btn">
+                <i class="fas fa-bullseye"></i>
+            </button>
+            <button class="mobile-btn move-btn" id="move-right">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        <div class="mobile-controls-row">
+            <button class="mobile-btn move-btn" id="move-down">
+                <i class="fas fa-arrow-down"></i>
+            </button>
+            <button class="mobile-btn special-btn" id="shield-btn">
+                <i class="fas fa-shield-alt"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Botones de acción general -->
+    <div class="action-buttons-game">
+        <button class="game-btn pause-btn" id="pause-btn">
+            <i class="fas fa-pause"></i>
+        </button>
+        <button class="game-btn menu-btn" id="game-menu-btn">
+            <i class="fas fa-home"></i>
+        </button>
+    </div>
+    
+    <!-- Pantalla de pausa -->
+    <div class="pause-screen" id="pause-screen">
+        <div class="pause-content">
+            <h2 class="pause-title">
+                <i class="fas fa-pause"></i> MISIÓN PAUSADA
+            </h2>
+            <div class="pause-stats">
+                <div class="stat">
+                    <span>Tiempo restante:</span>
+                    <span id="pause-timer">03:00</span>
+                </div>
+                <div class="stat">
+                    <span>Enemigos destruídos:</span>
+                    <span id="pause-kills">0</span>
+                </div>
+                <div class="stat">
+                    <span>Integridad:</span>
+                    <span id="pause-health">100%</span>
+                </div>
+            </div>
+            <div class="pause-buttons">
+                <button class="pause-action-btn" id="resume-btn">
+                    <i class="fas fa-play"></i> CONTINUAR
+                </button>
+                <button class="pause-action-btn" id="restart-btn">
+                    <i class="fas fa-redo"></i> REINICIAR
+                </button>
+                <button class="pause-action-btn" id="quit-btn">
+                    <i class="fas fa-sign-out-alt"></i> SALIR
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pantalla de Game Over -->
+    <div class="game-over-screen" id="game-over-screen">
+        <div class="game-over-content">
+            <h2 class="game-over-title" id="game-over-title">
+                <i class="fas fa-skull-crossbones"></i> MISIÓN FALLIDA
+            </h2>
+            <div class="game-over-stats">
+                <div class="final-stat">
+                    <i class="fas fa-clock"></i>
+                    <span>Tiempo sobrevivido:</span>
+                    <span id="final-time">00:00</span>
+                </div>
+                <div class="final-stat">
+                    <i class="fas fa-space-shuttle"></i>
+                    <span>Enemigos destruídos:</span>
+                    <span id="final-kills">0</span>
+                </div>
+                <div class="final-stat">
+                    <i class="fas fa-trophy"></i>
+                    <span>Puntuación:</span>
+                    <span id="final-score">0</span>
+                </div>
+            </div>
+            <div class="game-over-buttons">
+                <button class="game-over-btn" id="game-over-restart">
+                    <i class="fas fa-redo"></i> REINTENTAR
+                </button>
+                <button class="game-over-btn" id="game-over-menu">
+                    <i class="fas fa-home"></i> SALIR DEL JUEGO
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pantalla de Victoria -->
+    <div class="victory-screen" id="victory-screen">
+        <div class="victory-content">
+            <h2 class="victory-title">
+                <i class="fas fa-trophy"></i> MISIÓN COMPLETADA
+            </h2>
+            <div class="victory-message">
+    <!-- Cambiar esta línea -->
+    <p>¡Excelente trabajo, PILOTO!</p>
+    <p>Has defendido la rebelión con honor.</p>
+</div>
+            <div class="victory-stats">
+                <div class="final-stat victory-stat">
+                    <i class="fas fa-star"></i>
+                    <span>Eficiencia de combate:</span>
+                    <span id="victory-efficiency">100%</span>
+                </div>
+                <div class="final-stat victory-stat">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Integridad final:</span>
+                    <span id="victory-health">100%</span>
+                </div>
+                <div class="final-stat victory-stat">
+                    <i class="fas fa-medal"></i>
+                    <span>Rango alcanzado:</span>
+                    <span id="victory-rank">ROOKIE</span>
+                </div>
+            </div>
+            <div class="victory-buttons">
+                <button class="victory-btn" id="victory-restart">
+                    <i class="fas fa-redo"></i> NUEVA MISIÓN
+                </button>
+                <button class="victory-btn" id="victory-menu">
+                    <i class="fas fa-home"></i> SALIR DEL JUEGO
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Elementos de audio -->
+    <audio id="battle-music" loop>
+        <source src="assets/audio/battle.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- SFX (los cargaré dinámicamente) -->
+    <div id="sfx-container" style="display: none;"></div>
+    
+    <!-- Import Maps para Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/+esm",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+            }
+        }
+    </script>
+    
+    <!-- Script principal del juego -->
+    <script type="module" src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars Dogfight | Victor's 3D Universe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="title">
+                <i class="fas fa-jedi"></i>
+                STAR WARS DOGFIGHT
+                <i class="fas fa-rebel"></i>
+            </h1>
+            <p class="subtitle">LA BATALLA ESPACIAL DEFINITIVA</p>
+        </header>
+        
+        <div class="ship-container">
+            <div id="xwing-container"></div>
+        </div>
+        
+        <div class="message-box">
+            <p class="message" id="welcome-message">
+                EL DESTINO DE LA REBELIÓN ESTÁ EN TUS MANOS
+            </p>
+        </div>
+        
+        <div class="pilot-input">
+            <label for="pilot-name">
+                <i class="fas fa-user-astronaut"></i>
+                NOMBRE DEL PILOTO:
+            </label>
+            <input type="text" id="pilot-name" placeholder="EJ: LUKE SKYWALKER" maxlength="20">
+            <div class="input-hint">(Presiona ENTER para confirmar)</div>
+        </div>
+        
+        <div class="difficulty">
+            <h3><i class="fas fa-chart-line"></i> DIFICULTAD</h3>
+            <div class="difficulty-buttons">
+                <button class="diff-btn active" data-diff="easy">
+                    <i class="fas fa-star"></i> FÁCIL
+                </button>
+                <button class="diff-btn" data-diff="medium">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i> MEDIO
+                </button>
+                <button class="diff-btn" data-diff="hard">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i> DIFÍCIL
+                </button>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn-primary" id="start-btn">
+                <i class="fas fa-rocket"></i> INICIAR MISIÓN
+            </button>
+            <button class="btn-secondary" id="back-btn">
+                <i class="fas fa-arrow-left"></i> SALIR DEL JUEGO
+            </button>
+        </div>
+        
+        <div class="indicators">
+            <div class="indicator">
+                <i class="fas fa-mobile-alt"></i> COMPATIBLE CON MÓVIL
+            </div>
+            <div class="indicator">
+                <i class="fas fa-volume-up"></i> AUDIO INMERSIVO
+            </div>
+            <div class="indicator">
+                <i class="fas fa-gamepad"></i> 3 TIPOS DE ENEMIGOS
+            </div>
+        </div>
+    </div>
+    
+    <audio id="menu-music" loop>
+        <source src="assets/audio/adventures.mp3" type="audio/mpeg">
+    </audio>
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/+esm",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+            }
+        }
+    </script>
+    
+    <script type="module" src="main.js"></script>
+</body>
+</html>
