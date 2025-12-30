@@ -4,14 +4,14 @@
       "id": 1,
       "title": "Space Shooter 3D",
       "description": "Juego de naves espaciales con física realista y combate en el espacio",
-      "longDescription": "Un shooter espacial en primera persona con enemigos AI, power-ups y múltiples niveles. Desarrollado con Three.js y Cannon.js para físicas realistas.",
+      "longDescription": "Un shooter espacial en primera persona con enemigos AI, power-ups. Desarrollado por VICTOR ALBARO con Three.js y Blender.",
       "tags": ["acción", "espacio", "shooter", "3D", "física"],
       "folder": "games/space-shooter",
       "thumbnail": "assets/images/space-shooter-thumb.jpg",
-      "technologies": ["Three.js", "Cannon.js", "WebGL", "JavaScript"],
+      "technologies": ["Three.js", "Blender", "WebGL", "JavaScript"],
       "status": "en desarrollo",
       "features": ["Enemigos AI", "Sistema de puntuación", "Múltiples armas", "Efectos de partículas"],
-      "github": "https://github.com/victor-git-cyber/space-shooter-3d"
+      "github": "https://github.com/victor-git-cyber/star-wars-dogfight"
     },
     {
       "id": 2,

@@ -12,10 +12,10 @@ const projectsData = {
     games: [
         {
             id: 1,
-            title: "Space Shooter 3D",
+            title: "Star wars 3D",
             description: "Juego de naves espaciales con física realista y combate en el espacio",
             tags: ["acción", "espacio", "shooter"],
-            folder: "games/space-shooter"
+            folder: "games/star-wars-dogfight"
         },
         {
             id: 2,
