@@ -550,16 +550,7 @@ body {
     position: relative;
 }
 
-.message-box {
-    background: rgba(0, 40, 80, 0.3);
-    border: 2px solid #00a8ff;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 800px;
-    text-align: center;
-    animation: pulseBorder 3s infinite;
-}
+
 
 @keyframes pulseBorder {
     0%, 100% { border-color: #00a8ff; }
@@ -626,7 +617,7 @@ body {
     font-style: italic;
 }
 
-.difficulty {
+/*.difficulty {
     background: rgba(40, 0, 40, 0.4);
     border-radius: 10px;
     padding: 20px;
@@ -679,7 +670,7 @@ body {
 .diff-btn:hover:not(.active) {
     border-color: #888;
     color: #fff;
-}
+}*/
 
 .action-buttons {
     display: flex;
@@ -773,7 +764,7 @@ body {
         font-size: 1rem;
     }
     
-    .message {
+    /*.message {
         font-size: 1.1rem;
     }
     
@@ -785,7 +776,7 @@ body {
     .diff-btn {
         width: 100%;
         max-width: 300px;
-    }
+    }*/
     
     .action-buttons {
         flex-direction: column;
@@ -924,24 +915,154 @@ body {
         display: none;
     }
 }
+/* ===== OPTIMIZACIÓN COMPLETA PARA MÓVIL ===== */
+@media (max-width: 768px) {
+    /* 1. REESTRUCTURAR COMPLETAMENTE EL HUD */
+    .hud {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: space-between !important;
+        padding: 10px !important;
+        bottom: 80px !important; /* Subir para dar espacio a controles */
+        background: rgba(0, 0, 0, 0.4) !important;
+    }
+    
+    /* 2. OCULTAR ELEMENTOS NO ESENCIALES */
+    #score-display,
+    #enemies-destroyed,
+    #pilot-name-display,
+    .hud-center,
+    .hud-right .hud-panel:not(.health-container):not(.shield-container) {
+        display: none !important;
+    }
+    
+    /* 3. DISEÑO NUEVO: 3 CUADRADOS PEQUEÑOS EN FILA */
+    .hud-left, .hud-right {
+        width: 100% !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        gap: 5px !important;
+        padding: 0 !important;
+    }
+   
+    
+   
+   
+    
+    /* 7. HACER LOS AVISOS/ALERTAS MÁS TRANSPARENTES Y PEQUEÑOS */
+    .alerts {
+        top: 60px !important; /* Más abajo para no tapar botones */
+        width: 95% !important;
+        max-width: none !important;
+    }
+    
+    .alert {
+        padding: 8px 12px !important;
+        font-size: 0.85rem !important;
+        opacity: 0.7 !important; /* Más transparente */
+        background: rgba(255, 40, 40, 0.5) !important; /* Más transparente */
+        border-width: 1px !important;
+        animation-duration: 1s !important; /* Más lento */
+    }
+    
+    /* 8. CROSSHAIR MÁS PEQUEÑO */
+    .crosshair {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    .crosshair-inner {
+        border-width: 1px !important;
+    }
+    
+    .crosshair-dot {
+        width: 4px !important;
+        height: 4px !important;
+    }
+    
+    /* 9. BOTONES DE ACCIÓN MÁS PEQUEÑOS */
+    .action-buttons-game {
+        top: 10px !important;
+        right: 10px !important;
+        gap: 10px !important;
+    }
+    
+    .game-btn {
+        width: 45px !important;
+        height: 45px !important;
+        font-size: 16px !important;
+    }
+    
+    /* 10. CONTROLES MÓVILES MÁS COMPACTOS */
+    .mobile-controls {
+        bottom: 10px !important;
+        padding: 0 10px !important;
+    }
+    
+    .mobile-controls-row {
+        gap: 15px !important;
+        max-width: 350px !important;
+    }
+    
+    .mobile-btn {
+        width: 65px !important;
+        height: 65px !important;
+        font-size: 22px !important;
+    }
+    
+    .action-btn {
+        width: 75px !important;
+        height: 75px !important;
+    }
+    
+    /* 11. PANELES DE PAUSA/VICTORIA/DERROTA MÁS COMPACTOS */
+    .pause-content,
+    .game-over-content,
+    .victory-content {
+        padding: 20px 15px !important;
+        width: 95% !important;
+        max-width: 400px !important;
+    }
+    
+    .pause-title,
+    .game-over-title,
+    .victory-title {
+        font-size: 1.5rem !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .pause-buttons,
+    .game-over-buttons,
+    .victory-buttons {
+        margin-top: 20px !important;
+    }
+    
+    .pause-action-btn,
+    .game-over-btn,
+    .victory-btn {
+        padding: 15px !important;
+        font-size: 0.95rem !important;
+        min-width: 200px !important;
+    }
+}
 
-/* Para tablets */
+/* Para tablets (769px a 1024px) - Mantener PC pero ajustar */
 @media (min-width: 769px) and (max-width: 1024px) {
     .hud {
-        padding: 15px;
+        padding: 15px !important;
     }
     
     .hud-left,
     .hud-right {
-        min-width: 180px;
+        min-width: 180px !important;
     }
     
     .hud-center {
-        min-width: 220px;
+        min-width: 220px !important;
     }
 }
 
-/* Ocultar controles móviles en desktop */
+/* Asegurar que controles móviles solo se ven en móvil */
 @media (min-width: 769px) {
     .mobile-controls {
         display: none !important;

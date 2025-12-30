@@ -1118,9 +1118,9 @@ function activateShield() {
 // ===== INTERFAZ DE USUARIO =====
 function setupUI() {
     const pilotDisplay = document.getElementById('pilot-name-display');
-    if (pilotDisplay) {
+    /*if (pilotDisplay) {
         pilotDisplay.textContent = gameState.pilotName;
-    }
+    }*/
     
     // Botones
     const pauseBtn = document.getElementById('pause-btn');
