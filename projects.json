@@ -2,11 +2,11 @@
   "games": [
     {
       "id": 1,
-      "title": "Space Shooter 3D",
+      "title": "Star-Wars Dogfight",
       "description": "Juego de naves espaciales con física realista y combate en el espacio",
       "longDescription": "Un shooter espacial en primera persona con enemigos AI, power-ups. Desarrollado por VICTOR ALBARO con Three.js y Blender.",
       "tags": ["acción", "espacio", "shooter", "3D", "física"],
-      "folder": "games/space-shooter",
+      "folder": "games/star-wars-dogfight",
       "thumbnail": "assets/images/space-shooter-thumb.jpg",
       "technologies": ["Three.js", "Blender", "WebGL", "JavaScript"],
       "status": "en desarrollo",
