@@ -172,6 +172,18 @@ const modelPreloader = new ModelPreloader();
 // ===== INICIALIZACIÓN DEL JUEGO =====
 async function init() {
     console.log('🎮 Inicializando Star Wars Dogfight...');
+    // Al inicio de setupControls() o init()
+    document.addEventListener('touchstart', function(e) {
+    if (e.target.classList.contains('mobile-btn')) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+    document.addEventListener('touchmove', function(e) {
+    if (e.target.classList.contains('mobile-controls')) {
+        e.preventDefault();
+    }
+}, { passive: false });
     
     loadPilotData();
     await modelPreloader.preloadAll();
