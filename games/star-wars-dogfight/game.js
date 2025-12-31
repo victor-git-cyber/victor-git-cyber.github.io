@@ -309,31 +309,50 @@ function createXWingPlaceholder() {
 
 // ===== FONDO ESTELAR =====
 function createStarfield() {
-    const starCount = 1000;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+                    window.innerWidth < 768;
+    
+    // AJUSTAR SEGÚN DISPOSITIVO
+    const starCount = isMobile ? 150 : 300; // Menos estrellas en móvil
+    const starFieldDistance = isMobile ? 150 : 200; // Campo más cerca en móvil
+    const starSize = isMobile ? 0.08 : 0.11; // Estrellas más pequeñas en móvil
+    
+    console.log(`🌟 Creando campo estelar: ${starCount} estrellas`);
     
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(starCount * 3);
     
+    // DISTRIBUCIÓN MÁS INTELIGENTE
     for (let i = 0; i < starCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 200;
-        positions[i + 1] = (Math.random() - 0.5) * 200;
-        positions[i + 2] = (Math.random() - 1) * 200;
+        // X: Más ancho en los bordes (para dar sensación de velocidad)
+        positions[i] = (Math.random() - 0.5) * starFieldDistance * 1.5;
+        
+        // Y: Más estrellas en el centro
+        positions[i + 1] = (Math.random() - 0.5) * starFieldDistance * 0.8;
+        
+        // Z: Distribución estratificada (más cerca = más rápido)
+        const layer = Math.floor(Math.random() * 3); // 0, 1, 2
+        positions[i + 2] = -starFieldDistance * 0.3 - (layer * starFieldDistance * 0.35);
     }
     
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     
+    // MATERIAL MÁS EFICIENTE
     const material = new THREE.PointsMaterial({
-        size: 0.1,
+        size: starSize,
         color: 0xffffff,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.8,
+        sizeAttenuation: true, // IMPORTANTE: tamaño según distancia
+        fog: false // Desactivar fog para estrellas
     });
     
     const starField = new THREE.Points(geometry, material);
     scene.add(starField);
     stars.push(starField);
+    
+    return starField;
 }
-
 // ===== SISTEMA DE ENEMIGOS =====
 function spawnEnemy(type = 'tieInterceptor') {
     const enemyModel = modelPreloader.getModel(type);
@@ -1118,9 +1137,9 @@ function activateShield() {
 // ===== INTERFAZ DE USUARIO =====
 function setupUI() {
     const pilotDisplay = document.getElementById('pilot-name-display');
-    /*if (pilotDisplay) {
+    if (pilotDisplay) {
         pilotDisplay.textContent = gameState.pilotName;
-    }*/
+    }
     
     // Botones
     const pauseBtn = document.getElementById('pause-btn');
@@ -1306,12 +1325,18 @@ function loadPilotData() {
         if (savedData) {
             const data = JSON.parse(savedData);
             gameState.pilotName = data.name || 'PILOTO X-WING';
+            
+            // ¡AÑADIR ESTAS 2 LÍNEAS!
+            const pilotDisplay = document.getElementById('pilot-name-display');
+            if (pilotDisplay) {
+                pilotDisplay.textContent = gameState.pilotName;
+                console.log(`✅ Nombre cargado: ${gameState.pilotName}`);
+            }
         }
     } catch (e) {
         console.warn('No se pudo cargar datos del piloto:', e);
     }
 }
-
 function startGame() {
     gameState.running = true;
     gameState.paused = false;
@@ -1381,19 +1406,34 @@ function updateGame(deltaTime) {
 function updateStars(deltaTime) {
     stars.forEach(starField => {
         const positions = starField.geometry.attributes.position.array;
+        const starCount = positions.length / 3;
         
-        for (let i = 0; i < positions.length; i += 3) {
-            positions[i + 2] += 1.8 * deltaTime * 60;
+        for (let i = 0; i < starCount; i++) {
+            const index = i * 3;
             
-            if (positions[i + 2] > 10) {
-                positions[i + 2] = -190;
+            // Velocidad según capa (estrellas cercanas = más rápido)
+            const zDepth = Math.abs(positions[index + 2]);
+            const speedMultiplier = 1.0 - (zDepth / 200) * 0.7; // 0.3 a 1.0
+            
+            positions[index + 2] += 1.8 * speedMultiplier * deltaTime * 60;
+            
+            // RECICLAR estrellas que pasen la cámara
+            if (positions[index + 2] > 20) {
+                // Ponerla atrás con posición aleatoria
+                positions[index] = (Math.random() - 0.5) * 300;
+                positions[index + 1] = (Math.random() - 0.5) * 200;
+                positions[index + 2] = -200 - Math.random() * 100;
+                
+                // Opcional: tamaño aleatorio para variedad
+                if (starField.geometry.attributes.size) {
+                    starField.geometry.attributes.size.array[i] = Math.random() * 0.15 + 0.05;
+                }
             }
         }
         
         starField.geometry.attributes.position.needsUpdate = true;
     });
 }
-
 function togglePause() {
     if (gameState.gameOver || gameState.victory) return;
     
@@ -1524,7 +1564,7 @@ function goToPortfolio() {
     if (window.location.hostname === 'victor-git-cyber.github.io') {
         window.location.href = 'https://victor-git-cyber.github.io';
     } else {
-        window.location.href = '../index.html';
+        window.location.href = '/';
     }
 }
 

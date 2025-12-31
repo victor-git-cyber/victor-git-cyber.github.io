@@ -617,60 +617,6 @@ body {
     font-style: italic;
 }
 
-/*.difficulty {
-    background: rgba(40, 0, 40, 0.4);
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 800px;
-    text-align: center;
-}
-
-.difficulty h3 {
-    color: #ff00ff;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.difficulty h3 i {
-    margin-right: 10px;
-}
-
-.difficulty-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.diff-btn {
-    padding: 15px 30px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid #444;
-    border-radius: 8px;
-    color: #aaa;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    min-width: 150px;
-}
-
-.diff-btn.active {
-    background: rgba(0, 168, 255, 0.2);
-    border-color: #00a8ff;
-    color: #00a8ff;
-    box-shadow: 0 0 20px rgba(0, 168, 255, 0.5);
-}
-
-.diff-btn:hover:not(.active) {
-    border-color: #888;
-    color: #fff;
-}*/
 
 .action-buttons {
     display: flex;
@@ -764,19 +710,9 @@ body {
         font-size: 1rem;
     }
     
-    /*.message {
+    *.message {
         font-size: 1.1rem;
     }
-    
-    .difficulty-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .diff-btn {
-        width: 100%;
-        max-width: 300px;
-    }*/
     
     .action-buttons {
         flex-direction: column;
@@ -883,7 +819,7 @@ body {
         height: 200px;
     }
     
-    .message-box, .pilot-input, .difficulty {
+    .message-box, .pilot-input {
         padding: 15px;
         margin: 10px auto;
     }
@@ -931,18 +867,9 @@ body {
     #score-display,
     #enemies-destroyed,
     #pilot-name-display,
-    .hud-center,
+    .hud-center,.hud-left,
     .hud-right .hud-panel:not(.health-container):not(.shield-container) {
         display: none !important;
-    }
-    
-    /* 3. DISEÑO NUEVO: 3 CUADRADOS PEQUEÑOS EN FILA */
-    .hud-left, .hud-right {
-        width: 100% !important;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        gap: 5px !important;
-        padding: 0 !important;
     }
    
     
