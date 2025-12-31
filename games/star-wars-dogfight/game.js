@@ -1418,12 +1418,11 @@ function updateStars(deltaTime) {
             positions[index + 2] += 1.8 * speedMultiplier * deltaTime * 60;
             
             // RECICLAR estrellas que pasen la cámara
-            if (positions[index + 2] > 20) {
-                // Ponerla atrás con posición aleatoria
-                positions[index] = (Math.random() - 0.5) * 300;
+             if (positions[index + 2] >30) {
+                // Ponerlas DELANTE de la cámara
+                positions[index] = (Math.random() - 0.5) * 200;
                 positions[index + 1] = (Math.random() - 0.5) * 200;
-                positions[index + 2] = -200 - Math.random() * 100;
-                
+                positions[index + 2] = -150 + Math.random() * 50; 
                 // Opcional: tamaño aleatorio para variedad
                 if (starField.geometry.attributes.size) {
                     starField.geometry.attributes.size.array[i] = Math.random() * 0.15 + 0.05;
@@ -1514,8 +1513,8 @@ function victory() {
         let rank = 'ROOKIE';
         if (gameState.score >= 3000) rank = 'PILOTO';
         if (gameState.score >= 6000) rank = 'VETERANO';
-        if (gameState.score >= 10000) rank = 'ASESINO';
-        if (gameState.score >= 15000) rank = 'LEYENDA';
+        if (gameState.score >= 10000) rank = 'NINJA-JEDI';
+        if (gameState.score >= 15000) rank = 'LEYENDA-NINJA-JEDI';
         
         if (victoryScore) victoryScore.textContent = gameState.score;
         if (victoryKills) victoryKills.textContent = gameState.enemiesDestroyed;
