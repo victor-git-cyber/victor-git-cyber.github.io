@@ -1,0 +1,60 @@
+
+
+<html>
+<head>
+    <meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Tethrough</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E🎮%3C/text%3E%3C/svg%3E">
+</head>
+
+<body style="margin: 0px;">
+
+    <div id="menu">
+        <div class="headers" id="myHeader1">TETHROUGH</div>
+        <button class="button" id="playButton">ADVENTURE</button>
+        <button class="button" id="instructButton">INSTRUCTIONS</button>
+        <button class="button" id="infiniteButton">INFINITY MODE</button>
+</div>
+
+<div id="menu2"></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+<button class="stages" id="stage1">STAGE 1</button>
+
+<button class="stages" id="stage2">STAGE 2</button>
+
+<button class="stages" id="stage3">STAGE 3</button>
+
+<button class="stages" id="stage4">STAGE 4</button>
+
+<button class="stages" id="stage5">STAGE 5</button>
+
+<button class="stages" id="stage6">STAGE 6</button>
+
+<button class="stages" id="stage7">STAGE 7</button>
+
+<button class="stages" id="stage8">STAGE 8</button>
+
+<button class="stages" id="stage9">STAGE 9</button>
+
+<button class="stages" id="stage10">STAGE 10</button>
+
+<div class="headers" id="myHeader2">STAGES</div>
+
+</div>
+
+
+<img id="pointer" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ctext x='50%25' y='50%25' font-size='100' text-anchor='middle' dominant-baseline='central'%3E👆%3C/text%3E%3C/svg%3E">
+<div id="scoreId">0</div>
+<div id="instr1"></div>
+<div id="instr2"></div>
+<div id="instrText">MATCH YOUR PIECE WITH THE HOLE</div>
+<div id="pressText">TAP TO CONTINUE</div>
+</body>
+
+<!-- Load three.js as ES Module then expose global THREE for existing scripts -->
+<script type="module">
+import * as THREE from 'https://unpkg.com/three@0.152.0/build/three.module.js';
+window.THREE = THREE;
+</script>
+<script src="main.js"></script>
+</html>
