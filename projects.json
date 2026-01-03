@@ -15,7 +15,7 @@
     },
     {
       "id": 2,
-      "title": "Carrera de Cubos",
+      "title": "TETHROUGH",
       "description": "Juego de carreras de obstáculos con controles simples pero desafiantes",
       "longDescription": "Controla un cubo a través de una pista llena de obstáculos. Recolecta power-ups, evita trampas y compite contra el reloj.",
       "tags": ["carreras", "arcade", "3D", "obstáculos", "casual"],
@@ -24,7 +24,7 @@
       "technologies": ["Three.js", "JavaScript", "HTML5"],
       "status": "completado",
       "features": ["3 niveles", "Sistema de records", "Controles táctiles", "Efectos visuales"],
-      "github": "https://github.com/victor-git-cyber/cube-race"
+      "github": "https://github.com/victor-git-cyber/basic-game"
     }
   ],
   "scenes": [

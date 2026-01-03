@@ -19,10 +19,10 @@ const projectsData = {
         },
         {
             id: 2,
-            title: "Carrera de Cubos",
+            title: "TETHROUGH",
             description: "Juego de carreras de obstáculos con controles simples pero desafiantes",
             tags: ["carreras", "arcade", "3D"],
-            folder: "games/cube-race"
+            folder: "games/basic-game"
         }
     ],
     scenes: [
