@@ -31,7 +31,7 @@ var stage9=document.getElementById("stage9");
 var stage10=document.getElementById("stage10");
 // Background audio (try to load if available, otherwise continue without)
 var niceSong = new Audio('./assets/audio/background-music.mp3');
-var audioLoaded = true;
+var audioLoaded = false;
 
 //Variables
 var alpha=0,paused=1;
@@ -99,7 +99,7 @@ document.body.appendChild( renderer.domElement ); //Attaches renderer to DOM (in
 
 var scene = new THREE.Scene(); //Creates an empty scene where we are going to add our objects
 
-//Camera
+/*Camera*/
 var camera = new THREE.PerspectiveCamera( FOV,ASPECT,NEAR,FAR ); //Creates a camera
 camera.up.set( 0,0,1 ); //Sets the camera the correct direction
 camera.rotation.x=-PI/2;
@@ -108,6 +108,8 @@ camera.position.z=30;
 // Use the correct method name: lookAt (capital A)
 camera.lookAt(0,0,0); //Points the camera to the center of the scene
 scene.add( camera ); //Adds the camera to the scene
+
+
 
 // OrbitControls removed — camera is fixed for gameplay
 
@@ -600,19 +602,20 @@ function showMenu(){
         if (infVar==0){
             swal({
               title: "Game over!",
-              text: "You crashed into the wall",
+              text: "Te estrellaste contra la pared",
               icon: "error",
-              button: "Try again",
+              button: "Juega de nuevo",
               closeOnClickOutside: false,
             });
         }
         else if(infVar==1){
             swal({
               title: "Game over!",
-              text: "You got " + scoreCounter + " points!",
+              text: "Obtuviste " + scoreCounter + " points!",
               icon: "error",
-              button: "Try again",
+              button: "Juega de nuevo",
               closeOnClickOutside: false,
+
             });
             
             if (scoreCounter>bestScore){
@@ -679,7 +682,7 @@ function stage10function(){
 function infFunction(){
     audioLoad();
     //if (finishedGame==1){
-        selectStage(100,0.13,0); 
+        selectStage(100,0.1,0); 
     /*}
     else{
        swal({
@@ -705,7 +708,7 @@ instrButton.addEventListener('touchend', function(){
     realPattern[shapeValue].position.x=groundArray[groundValue].position.x-1.01;
     hideStuff();
     myScore.style.display="none";
-    instructText.innerHTML="MATCH YOUR PIECE WITH THE HOLE";
+    instructText.innerHTML="HAZ COINCIDIR TU PIEZA CON EL AGUJERO";
     instructText.style.display="inline";
     contText.style.display="inline";
     instructText.style.fontSize="20px";
@@ -885,10 +888,10 @@ function finishedStage(nextStage,stageString,numb){
     playingTutorial=4;
     showMenu();
     swal({
-      title: "Good job!",
-      text: "You finished " + stageString,
-      icon: "success",
-      button: "Yay!",
+      title: "Muy bien!",
+      text: "Has acabado " + stageString,
+      icon: "exito",
+      button: "Si!",
       closeOnClickOutside: false,
     });
     copyPattern[0].position.x=-25;
