@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DeLorean R0_MA Scene</title>
+    <title>DeLorean Scene - Versión 7</title>
 
     <style>
         body { margin: 0; overflow: hidden; background: black; }
@@ -28,119 +28,116 @@
 </head>
 <body>
 
-<div id="loadingScreen">Cargando...scene by VICTOR ALBARO</div>
+<div id="loadingScreen">Cargando escena 3D...</div>
 <button id="startBtn">INICIAR ENERGÍA</button>
 <canvas id="webgl"></canvas>
 
-<!-- Three.js + GLTFLoader + OrbitControls -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/draco_decoder.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/draco_wasm_wrapper.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/draco_wasm.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+
 <script>
+/* ============================
+   DETECCIÓN DE MÓVIL
+============================ */
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+/* ============================
+   VARIABLES PRINCIPALES
+============================ */
 let scene, camera, renderer;
 let delorean, ciudad;
 let pivot;
 let controls;
 let listener, music;
 
-// Efectos
 let energyParticles, energyMaterial;
 let rearOrbs = [];
 
-// Estados
 let introOrbit = true;
 let energyActivating = false;
 let energyActive = false;
 let finalOrbit = false;
-let energyTime = 0;
 let orbsFadingOut = false;
 
+let energyTime = 0;
 
-// Duración de activación
 const ACTIVATION_DURATION = 20;
-
-// Posición base del DeLorean (centrado)
 const DELOREAN_BASE_POS = new THREE.Vector3(0, 3, 0);
+const FINAL_CAMERA_POS = new THREE.Vector3(0, 4, 14);
 
-// Posición final de cámara antes de liberar controles
-const FINAL_CAMERA_POS = new THREE.Vector3(0, 4, 10);
-
-// ===============================
-// INIT
-// ===============================
+/* ============================
+   INIT
+============================ */
 function init() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x080008);
 
-    // Cámara
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
     camera.position.set(0, 1.8, 4.5);
 
-    // Pivot
     pivot = new THREE.Object3D();
     scene.add(pivot);
     pivot.add(camera);
 
-    // Renderer
     const canvas = document.getElementById("webgl");
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
 
-    // OrbitControls
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(isMobile ? 1 : window.devicePixelRatio);
+
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enabled = false;
-    controls.minDistance = 3;
-    controls.maxDistance = 40;
-    controls.maxPolarAngle = Math.PI / 1.1; //2.2
+    controls.minDistance = isMobile ? 2 : 3;
+    controls.maxDistance = isMobile ? 20 : 40;
+    controls.maxPolarAngle = Math.PI / 1.1;
 
-    // Luces
-    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    /* ============================
+       LUCES
+    ============================ */
+    scene.add(new THREE.AmbientLight(0xffffff, 1));
 
-    const dir = new THREE.DirectionalLight(0xff00ff, 0.6);
-    dir.position.set(0, 5, 10); //10,20,30
+    const dir = new THREE.DirectionalLight(0xff00ff, isMobile ? 0.25 : 0.5);
+    dir.position.set(10, 20, 10);
     scene.add(dir);
 
-    const point1 = new THREE.PointLight(0xffffff, 1, 200);
+    const point1 = new THREE.PointLight(0xffffff, isMobile ? 0.4 : 1, 200);
     point1.position.set(5, 10, 5);
     scene.add(point1);
 
-    const rim = new THREE.DirectionalLight(0x0088ff, 0.4);
+    const rim = new THREE.DirectionalLight(0x0088ff, isMobile ? 0.1 : 0.8);
     rim.position.set(0, 5, -10); // detrás del coche
     scene.add(rim);
 
-    const warmBounce = new THREE.PointLight(0xff6600, 0.2, 20);
+    const warmBounce = new THREE.PointLight(0xff6600, isMobile ? 0.1 : 0.2, 20);
     warmBounce.position.set(0, 1, 0); // justo debajo del coche
     scene.add(warmBounce);
 
-    // Carretera
-    /*const road = new THREE.Mesh(
-        new THREE.PlaneGeometry(500, 5000),
-        new THREE.MeshStandardMaterial({ color: 0x0A0A0A })
-    );
-    road.rotation.x = -Math.PI / 2;
-    scene.add(road);*/
 
-    // Estrellas
-    crearEstrellas();
+    /* ============================
+       ESTRELLAS (solo PC)
+    ============================ */
+    if (!isMobile) crearEstrellas();
 
-    // Audio
     setupAudio();
-
-    // Modelos
     loadModels();
 
     window.addEventListener("resize", onResize);
     animate();
 }
 
-// ===============================
-// ESTRELLAS
-// ===============================
+/* ============================
+   ESTRELLAS
+============================ */
 function crearEstrellas() {
     const starGeometry = new THREE.BufferGeometry();
-    const starCount = 500;
+    const starCount = 800;
     const positions = [];
 
     for (let i = 0; i < starCount; i++) {
@@ -162,9 +159,9 @@ function crearEstrellas() {
     scene.add(stars);
 }
 
-// ===============================
-// AUDIO
-// ===============================
+/* ============================
+   AUDIO
+============================ */
 function setupAudio() {
     listener = new THREE.AudioListener();
     camera.add(listener);
@@ -180,44 +177,52 @@ function setupAudio() {
     });
 }
 
-// ===============================
-// LOAD MODELS
-// ===============================
+/* ============================
+   MODELOS
+============================ */
 function loadModels() {
+    // Loader principal
     const loader = new THREE.GLTFLoader();
+    const dracoLoader = new THREE.DRACOLoader();
 
-    loader.load("assets/ciudad.glb/cityregresoFuturo.glb", function(gltf) {
-        ciudad = gltf.scene;
-        scene.add(ciudad);
-    });
+// Ruta a los decoders (ya los cargaste arriba)
+    dracoLoader.setDecoderPath("https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/");
+    loader.setDRACOLoader(dracoLoader);
 
-    loader.load("assets/delorean10.glb/delorean.glb", function(gltf) {
-        delorean = gltf.scene;
-        delorean.position.copy(DELOREAN_BASE_POS);
-        delorean.rotation.y = Math.PI;
-        scene.add(delorean);
 
-        crearEnergyParticles();
-        crearRearOrbs();
+    loader.load("assets/delorean_draco.glb/delorean.glb", function(gltf) {
+    delorean = gltf.scene;
+    delorean.position.copy(DELOREAN_BASE_POS);
+    delorean.rotation.y = Math.PI;
+    scene.add(delorean);
 
-        document.getElementById("loadingScreen").style.display = "none";
-        document.getElementById("startBtn").style.display = "block";
-    });
+    crearEnergyParticles();
+    crearRearOrbs();
+
+    document.getElementById("loadingScreen").style.display = "none";
+    document.getElementById("startBtn").style.display = "block";
+});
+
+loader.load("assets/ciudad_draco.glb/cityregresoFuturo.glb", function(gltf) {
+    ciudad = gltf.scene;
+    scene.add(ciudad);
+});
+
 }
 
-// ===============================
-// PARTÍCULAS DE ENERGÍA
-// ===============================
+/* ============================
+   PARTÍCULAS
+============================ */
 function crearEnergyParticles() {
     const particleGeometry = new THREE.BufferGeometry();
-    const count = 1000;
+    const count = isMobile ? 120 : 800;
     const positions = [];
-    const radius = 4.3;
+    const radius = isMobile ? 2.2 : 4.3;
 
     for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
         const y = (Math.random() - 0.5) * 1.2;
-        const r = radius * (0.5 + Math.random() * 0.5); 
+        const r = radius * (0.5 + Math.random() * 0.5);
 
         positions.push(
             Math.cos(angle) * r,
@@ -230,7 +235,7 @@ function crearEnergyParticles() {
 
     energyMaterial = new THREE.PointsMaterial({
         color: 0x66ccff,
-        size: 0.03,
+        size: isMobile ? 0.02 : 0.03,
         transparent: true,
         opacity: 0.0
     });
@@ -239,19 +244,18 @@ function crearEnergyParticles() {
     delorean.add(energyParticles);
 }
 
-// ===============================
-// BOLAS AZULES TRASERAS
-// ===============================
+/* ============================
+   ORBS TRASEROS
+============================ */
 function crearRearOrbs() {
     const orbGeometry = new THREE.SphereGeometry(0.3, 16, 16);
     const orbMaterial = new THREE.MeshStandardMaterial({
-    color: 0x00aaff,
-    emissive: 0x0088ff,
-    emissiveIntensity: 1.5,
-    transparent: true,
-    opacity: 0.9
-});
-
+        color: 0x00aaff,
+        emissive: 0x0088ff,
+        emissiveIntensity: 1.5,
+        transparent: true,
+        opacity: 1.0
+    });
 
     const offsets = [
         new THREE.Vector3(-0.55, 1.2, -3.3),
@@ -263,13 +267,13 @@ function crearRearOrbs() {
         orb.position.copy(offset);
         orb.scale.set(0.1, 0.1, 0.1);
         delorean.add(orb);
-        rearOrbs.push({ mesh: orb, baseOffset: offset.clone() });
+        rearOrbs.push({ mesh: orb });
     });
 }
 
-// ===============================
-// INICIAR ENERGÍA
-// ===============================
+/* ============================
+   INICIAR ENERGÍA
+============================ */
 function iniciarEnergia() {
     if (!delorean || energyActivating || energyActive) return;
 
@@ -285,9 +289,9 @@ function iniciarEnergia() {
 
 document.getElementById("startBtn").onclick = iniciarEnergia;
 
-// ===============================
-// ANIMATE
-// ===============================
+/* ============================
+   ANIMATE
+============================ */
 function animate() {
     requestAnimationFrame(animate);
 
@@ -297,13 +301,13 @@ function animate() {
         pivot.position.copy(delorean.position);
 
         if (introOrbit) {
-            pivot.rotation.y += 0.0015;
+            pivot.rotation.y += isMobile ? 0.001 : 0.0015;
         }
 
         if (energyActivating) {
             energyTime += delta;
 
-            const vib = 0.05 + Math.min(energyTime * 0.03, 0.15);
+            const vib = isMobile ? 0.02 : 0.05;
             delorean.position.x = DELOREAN_BASE_POS.x + Math.sin(energyTime * 20) * vib;
             delorean.position.z = DELOREAN_BASE_POS.z + Math.cos(energyTime * 20) * vib;
 
@@ -318,18 +322,27 @@ function animate() {
                 o.mesh.scale.set(s, s, s);
             });
 
-            pivot.rotation.y += 0.003;
+            pivot.rotation.y += isMobile ? 0.002 : 0.003;
 
             if (energyTime > ACTIVATION_DURATION) {
                 energyActivating = false;
-                finalOrbit = true;
                 introOrbit = false;
-                orbsFadingOut = true;
 
                 delorean.position.copy(DELOREAN_BASE_POS);
 
                 if (energyMaterial) {
                     energyMaterial.opacity = 0.8;
+                }
+
+                orbsFadingOut = true;
+
+                if (isMobile) {
+                    controls.enabled = true;
+                    controls.target.copy(delorean.position);
+                    controls.update();
+                    energyActive = true;
+                } else {
+                    finalOrbit = true;
                 }
 
                 if (music && music.isPlaying) {
@@ -338,7 +351,7 @@ function animate() {
             }
         }
 
-        if (finalOrbit) {
+        if (finalOrbit && !isMobile) {
             pivot.rotation.y += 0.0015;
 
             camera.position.lerp(FINAL_CAMERA_POS, 0.01);
@@ -353,49 +366,40 @@ function animate() {
             }
         }
 
+        if (orbsFadingOut) {
+            rearOrbs.forEach(o => {
+                o.mesh.material.opacity -= 0.01;
+                o.mesh.scale.multiplyScalar(0.97);
+
+                if (o.mesh.material.opacity <= 0) {
+                    delorean.remove(o.mesh);
+                }
+            });
+
+            if (rearOrbs.every(o => o.mesh.material.opacity <= 0)) {
+                orbsFadingOut = false;
+            }
+        }
+
         if (energyActive) {
             const t = performance.now() * 0.001;
-            const vib = 0.03;
+            const vib = isMobile ? 0.015 : 0.03;
+
             delorean.position.x = DELOREAN_BASE_POS.x + Math.sin(t * 15) * vib;
             delorean.position.z = DELOREAN_BASE_POS.z + Math.cos(t * 15) * vib;
 
             if (energyParticles) {
                 energyParticles.rotation.y += 0.004;
             }
-            if (orbsFadingOut) {
-                rearOrbs.forEach((o) => {
-                    // Reducir opacidad
-                    o.mesh.material.opacity -= 0.01;
-
-                    // Reducir tamaño
-                    o.mesh.scale.multiplyScalar(0.97);
-
-                    // Cuando desaparezcan, eliminarlos
-                    if (o.mesh.material.opacity <= 0) {
-                        delorean.remove(o.mesh);
-        }
-    });
-
-    // Cuando todos hayan desaparecido, desactivar fade-out
-    if (rearOrbs.every(o => o.mesh.material.opacity <= 0)) {
-        orbsFadingOut = false;
-    }
-}
-
-
-            rearOrbs.forEach((o, i) => {
-                const pulse = 0.9 + Math.sin(t * 4 + i) * 0.2;
-                o.mesh.scale.set(pulse, pulse, pulse);
-            });
         }
     }
 
     renderer.render(scene, camera);
 }
 
-// ===============================
-// RESIZE
-// ===============================
+/* ============================
+   RESIZE
+============================ */
 function onResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
