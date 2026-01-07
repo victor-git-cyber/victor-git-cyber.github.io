@@ -28,10 +28,10 @@ const projectsData = {
     scenes: [
         {
             id: 3,
-            title: "Galaxia Interactiva",
-            description: "Sistema solar completo con planetas orbitando y información educativa",
-            tags: ["espacio", "educativo", "simulación"],
-            folder: "scenes/galaxy"
+            title: "deLorean_R0_MA",
+            description: "Escena con deLorean luces y boton animacion",
+            tags: ["interactivo", "particulas", "simulación"],
+            folder: "scenes/DELOREANSCENE"
         },
         {
             id: 4,

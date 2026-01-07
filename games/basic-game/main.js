@@ -111,7 +111,7 @@ scene.add( camera ); //Adds the camera to the scene
 
 
 
-// OrbitControls removed — camera is fixed for gameplay
+// OrbitControls 
 
 //Light
 var ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
@@ -356,12 +356,12 @@ function startFunction(e){
     swipeUpBol=0;
     swipeDownBol=0;
 
-    startTime = new Date().getTime(); //time when finger first makes contact with screen
+    startTime = new Date().getTime(); //momento en que se toca la pantalla
 
     if(playingTutorial==1){
         instruct1.style.display="inline";
         finger.style.display="inline";
-        instructText.innerHTML="PRESS THE RIGHT SIDE OF THE SCREEN TO ROTATE CLOCKWISE";
+        instructText.innerHTML="TOCA EL LADO DERECHO DE LA PANTALLA PARA GIRAR EN EL SENTIDO DE LAS AGUJAS DEL RELOJ";
         instructText.style.bottom="70%";
         instructText.style.left="60%";
         instructText.style.fontSize="15px";
@@ -370,7 +370,7 @@ function startFunction(e){
     else if(playingTutorial==2){
         instruct1.style.display="none";
         instruct2.style.display="inline";
-        instructText.innerHTML="PRESS THE LEFT SIDE OF THE SCREEN TO ROTATE ANTI-CLOCKWISE";
+        instructText.innerHTML="TOCA EL LADO IZQUIERDO DE LA PANTALLA PARA GIRAR EN CONTRA DEL SENTIDO DE LAS AGUJAS DEL RELOJ";
         instructText.style.left="40%";
         finger.style.left="25%";
         playingTutorial=3;
@@ -379,7 +379,7 @@ function startFunction(e){
         instruct1.style.display="none";
         instruct2.style.display="none";
         instructText.style.fontSize="18px";
-        instructText.innerHTML="SWIPE TO MOVE YOUR PIECE";
+        instructText.innerHTML="DESLIZA PARA MOVER PIEZA";
         instructText.style.left="50%";
         instructText.style.bottom="80%";
         finger.style.left="50%";
