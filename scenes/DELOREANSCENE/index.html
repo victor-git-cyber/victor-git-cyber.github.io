@@ -80,7 +80,7 @@ function init() {
     scene.background = new THREE.Color(0x080008);
 
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
-    camera.position.set(0, 1.8, 4.5);
+    camera.position.set(0, 2, 7);
 
     pivot = new THREE.Object3D();
     scene.add(pivot);
@@ -215,9 +215,9 @@ loader.load("assets/ciudad_draco.glb/cityregresoFuturo.glb", function(gltf) {
 ============================ */
 function crearEnergyParticles() {
     const particleGeometry = new THREE.BufferGeometry();
-    const count = isMobile ? 120 : 800;
+    const count = isMobile ? 320 : 800;
     const positions = [];
-    const radius = isMobile ? 2.2 : 4.3;
+    const radius = isMobile ? 3.2 : 4.3;
 
     for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
@@ -235,7 +235,7 @@ function crearEnergyParticles() {
 
     energyMaterial = new THREE.PointsMaterial({
         color: 0x66ccff,
-        size: isMobile ? 0.02 : 0.03,
+        size: isMobile ? 0.025 : 0.03,
         transparent: true,
         opacity: 0.0
     });
@@ -322,7 +322,7 @@ function animate() {
                 o.mesh.scale.set(s, s, s);
             });
 
-            pivot.rotation.y += isMobile ? 0.002 : 0.003;
+            pivot.rotation.y += isMobile ? 0.003 : 0.003;
 
             if (energyTime > ACTIVATION_DURATION) {
                 energyActivating = false;
@@ -385,8 +385,8 @@ function animate() {
             const t = performance.now() * 0.001;
             const vib = isMobile ? 0.015 : 0.03;
 
-            delorean.position.x = DELOREAN_BASE_POS.x + Math.sin(t * 15) * vib;
-            delorean.position.z = DELOREAN_BASE_POS.z + Math.cos(t * 15) * vib;
+            delorean.position.x = DELOREAN_BASE_POS.x + Math.sin(t * 20) * vib;
+            delorean.position.z = DELOREAN_BASE_POS.z + Math.cos(t * 20) * vib;
 
             if (energyParticles) {
                 energyParticles.rotation.y += 0.004;
