@@ -28,7 +28,7 @@
 </head>
 <body>
 
-<div id="loadingScreen">Cargando escena 3D...</div>
+<div id="loadingScreen">Cargando...by victor albaro</div>
 <button id="startBtn">INICIAR ENERGÍA</button>
 <canvas id="webgl"></canvas>
 
@@ -94,8 +94,8 @@ function init() {
 
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enabled = false;
-    controls.minDistance = isMobile ? 2 : 3;
-    controls.maxDistance = isMobile ? 20 : 40;
+    controls.minDistance = isMobile ? 2.1 : 3;
+    controls.maxDistance = isMobile ? 18 : 40;
     controls.maxPolarAngle = Math.PI / 1.1;
 
     /* ============================
@@ -308,8 +308,8 @@ function animate() {
             energyTime += delta;
 
             const vib = isMobile ? 0.02 : 0.05;
-            delorean.position.x = DELOREAN_BASE_POS.x + Math.sin(energyTime * 20) * vib;
-            delorean.position.z = DELOREAN_BASE_POS.z + Math.cos(energyTime * 20) * vib;
+            delorean.position.x = DELOREAN_BASE_POS.x + Math.sin(energyTime * 30) * vib;
+            delorean.position.z = DELOREAN_BASE_POS.z + Math.cos(energyTime * 30) * vib;
 
             if (energyMaterial) {
                 energyMaterial.opacity = Math.min(1.0, energyTime * 0.05);
