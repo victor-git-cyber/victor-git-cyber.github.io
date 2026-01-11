@@ -1,4 +1,61 @@
 
+
+<html>
+<head>
+    <meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Tethrough</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E🎮%3C/text%3E%3C/svg%3E">
+</head>
+
+<body style="margin: 0px;">
+
+    <div id="menu">
+        <div class="headers" id="myHeader1">TETHROUGH</div>
+        <button class="button" id="playButton">AVENTURA</button>
+        <button class="button" id="instructButton">INSTRUCCIONES</button>
+        <button class="button" id="infiniteButton">INFINITY MODE</button>
+</div>
+
+<div id="menu2"></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+<button class="stages" id="stage1">STAGE 1</button>
+
+<button class="stages" id="stage2">STAGE 2</button>
+
+<button class="stages" id="stage3">STAGE 3</button>
+
+<button class="stages" id="stage4">STAGE 4</button>
+
+<button class="stages" id="stage5">STAGE 5</button>
+
+<button class="stages" id="stage6">STAGE 6</button>
+
+<button class="stages" id="stage7">STAGE 7</button>
+
+<button class="stages" id="stage8">STAGE 8</button>
+
+<button class="stages" id="stage9">STAGE 9</button>
+
+<button class="stages" id="stage10">STAGE 10</button>
+
+<div class="headers" id="myHeader2">STAGES</div>
+
+</div>
+
+
+<img id="pointer" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ctext x='50%25' y='50%25' font-size='100' text-anchor='middle' dominant-baseline='central'%3E👆%3C/text%3E%3C/svg%3E">
+<div id="scoreId">0</div>
+<div id="instr1"></div>
+<div id="instr2"></div>
+<div id="instrText">PON LA PIEZA EN EL AGUJERO</div>
+<div id="pressText">TOCA PARA CONTINUAR</div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
+
+    <script>
 window.addEventListener('load', function(){
 
 console.log=function(){};
@@ -31,7 +88,7 @@ var stage9=document.getElementById("stage9");
 var stage10=document.getElementById("stage10");
 // Background audio (try to load if available, otherwise continue without)
 var niceSong = new Audio('./assets/audio/background-music.mp3');
-var audioLoaded = false;
+var audioLoaded = true;
 
 //Variables
 var alpha=0,paused=1;
@@ -99,19 +156,25 @@ document.body.appendChild( renderer.domElement ); //Attaches renderer to DOM (in
 
 var scene = new THREE.Scene(); //Creates an empty scene where we are going to add our objects
 
-/*Camera*/
+//Camera
 var camera = new THREE.PerspectiveCamera( FOV,ASPECT,NEAR,FAR ); //Creates a camera
 camera.up.set( 0,0,1 ); //Sets the camera the correct direction
 camera.rotation.x=-PI/2;
-camera.position.x=-35;
-camera.position.z=30;
+camera.position.x=-30;//-35
+camera.position.z=25;//30
 // Use the correct method name: lookAt (capital A)
-camera.lookAt(0,0,0); //Points the camera to the center of the scene
+//camera.lookAt(0,0,0); //Points the camera to the center of the scene
 scene.add( camera ); //Adds the camera to the scene
 
+// OrbitControls removed — camera is fixed for gameplay
 
 
-// OrbitControls 
+//Orbit control
+var controls = new THREE.OrbitControls( camera, renderer.domElement ); //OrbitControls allows camera to be controlled and orbit around a target
+controls.minDistance = 1000/SCALE; //Sets the minimum distance one can pan into the scene
+controls.enabled=false;
+controls.update();
+
 
 //Light
 var ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
@@ -136,11 +199,13 @@ var width  = 16.1; //width of ground
 var length = 15; //length of ground
 
 var geometry = new THREE.BoxGeometry( width, length,3); //ThreeJS function to create plane geometry
+var texture = new THREE.TextureLoader().load( "./assets/audio/fondo12.jpg" );
 
 // No external textures: use simple colored materials
 var groundMat1 = new THREE.MeshLambertMaterial({
     transparent: true,
     opacity: 1,
+    map: texture,
     color: 0xe6e6e6,
     side: THREE.DoubleSide
 });
@@ -148,6 +213,7 @@ var groundMat2 = new THREE.MeshLambertMaterial({
     transparent: true,
     opacity: 1,
     color: 0xe6e6e6,
+    map:texture,
     side: THREE.DoubleSide
 });
 
@@ -295,9 +361,14 @@ tree.position.y=-45/2;
 //Support for wall
 function spawnSupport(groundNum){
 var supportGeometry = new THREE.BoxGeometry( 2, 2, 45);
-var supportMaterial = new THREE.MeshLambertMaterial({
-    color:0x8c8c8c
-});
+var poleTexture = new THREE.TextureLoader().load( "./assets/audio/fondo12.jpg" );
+
+var supportMaterial = new THREE.MeshLambertMaterial( {
+
+color:0x8c8c8c,
+map:poleTexture
+
+} );
 var support= new THREE.Mesh( supportGeometry, supportMaterial );
 support.rotation.x+=Math.PI/2;
 support.position.y=(-45/2)-(15/2)-0.1;
@@ -356,12 +427,12 @@ function startFunction(e){
     swipeUpBol=0;
     swipeDownBol=0;
 
-    startTime = new Date().getTime(); //momento en que se toca la pantalla
+    startTime = new Date().getTime(); //time when finger first makes contact with screen
 
     if(playingTutorial==1){
         instruct1.style.display="inline";
         finger.style.display="inline";
-        instructText.innerHTML="TOCA EL LADO DERECHO DE LA PANTALLA PARA GIRAR EN EL SENTIDO DE LAS AGUJAS DEL RELOJ";
+        instructText.innerHTML="PRESS THE RIGHT SIDE OF THE SCREEN TO ROTATE CLOCKWISE";
         instructText.style.bottom="70%";
         instructText.style.left="60%";
         instructText.style.fontSize="15px";
@@ -370,7 +441,7 @@ function startFunction(e){
     else if(playingTutorial==2){
         instruct1.style.display="none";
         instruct2.style.display="inline";
-        instructText.innerHTML="TOCA EL LADO IZQUIERDO DE LA PANTALLA PARA GIRAR EN CONTRA DEL SENTIDO DE LAS AGUJAS DEL RELOJ";
+        instructText.innerHTML="PRESS THE LEFT SIDE OF THE SCREEN TO ROTATE ANTI-CLOCKWISE";
         instructText.style.left="40%";
         finger.style.left="25%";
         playingTutorial=3;
@@ -379,7 +450,7 @@ function startFunction(e){
         instruct1.style.display="none";
         instruct2.style.display="none";
         instructText.style.fontSize="18px";
-        instructText.innerHTML="DESLIZA PARA MOVER PIEZA";
+        instructText.innerHTML="SWIPE TO MOVE YOUR PIECE";
         instructText.style.left="50%";
         instructText.style.bottom="80%";
         finger.style.left="50%";
@@ -602,20 +673,19 @@ function showMenu(){
         if (infVar==0){
             swal({
               title: "Game over!",
-              text: "Te estrellaste contra la pared",
+              text: "You crashed into the wall",
               icon: "error",
-              button: "Juega de nuevo",
+              button: "Try again",
               closeOnClickOutside: false,
             });
         }
         else if(infVar==1){
             swal({
               title: "Game over!",
-              text: "Obtuviste " + scoreCounter + " points!",
+              text: "You got " + scoreCounter + " points!",
               icon: "error",
-              button: "Juega de nuevo",
+              button: "Try again",
               closeOnClickOutside: false,
-
             });
             
             if (scoreCounter>bestScore){
@@ -682,7 +752,7 @@ function stage10function(){
 function infFunction(){
     audioLoad();
     //if (finishedGame==1){
-        selectStage(100,0.1,0); 
+        selectStage(100,0.13,0); 
     /*}
     else{
        swal({
@@ -708,7 +778,7 @@ instrButton.addEventListener('touchend', function(){
     realPattern[shapeValue].position.x=groundArray[groundValue].position.x-1.01;
     hideStuff();
     myScore.style.display="none";
-    instructText.innerHTML="HAZ COINCIDIR TU PIEZA CON EL AGUJERO";
+    instructText.innerHTML="MATCH YOUR PIECE WITH THE HOLE";
     instructText.style.display="inline";
     contText.style.display="inline";
     instructText.style.fontSize="20px";
@@ -888,10 +958,10 @@ function finishedStage(nextStage,stageString,numb){
     playingTutorial=4;
     showMenu();
     swal({
-      title: "Muy bien!",
-      text: "Has acabado " + stageString,
-      icon: "exito",
-      button: "Si!",
+      title: "Good job!",
+      text: "You finished " + stageString,
+      icon: "success",
+      button: "Yay!",
       closeOnClickOutside: false,
     });
     copyPattern[0].position.x=-25;
@@ -1045,3 +1115,6 @@ if (groundArray[1].material.opacity>0.5){
     renderer.render(scene, camera); //We need this in the loop to perform the rendering
     };
 });
+</script>
+</body>
+</html>
